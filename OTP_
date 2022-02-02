@@ -9,7 +9,7 @@ from twilio.rest import Client
 class OTP:
     def __init__(self, root):
         self.root = root
-        self.root.title("OTP Window_By-Pavi")
+        self.root.title("OTP Generator_By-Sarita Bisht")
         self.root.geometry("560x600+280+50")
         self.root.config(bg='black')
         self.root.resizable(False, False)
@@ -88,7 +88,7 @@ class OTP:
             client = Client(self.acc_sid, self.auth_tok)
             msg = client.messages.create(
                 body=f"your OTP is {self.otp}",
-                from_="+18045526142",
+                from_="+18125052540",
                 to=self.ph_txt.get()
         )
 
@@ -99,7 +99,7 @@ class OTP:
             client = Client(self.acc_sid, self.auth_tok)
             msg = client.messages.create(
                 body=f"your OTP is {self.otp}",
-                from_="+18045526142",
+                from_="+18125052540",
                 to=self.ph_txt.get()
             )
 
