@@ -1,0 +1,113 @@
+from tkinter import *
+from PIL import ImageTk, Image
+from tkinter import messagebox
+from tkinter import ttk
+import random
+from twilio.rest import Client
+
+
+class OTP:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("OTP Window_By-Pavi")
+        self.root.geometry("560x600+280+50")
+        self.root.config(bg='black')
+        self.root.resizable(False, False)
+
+        self.bg = ImageTk.PhotoImage(file="img.jpg")
+        bg = Label(self.root, image=self.bg, bd=10).place(x=0, y=10, width=430, height=570)
+
+        image = Image.open("zoop.png")
+
+        # Resize the image using resize() method
+        resize_image = image.resize((400, 400))
+
+        img = ImageTk.PhotoImage(resize_image)
+
+        # create label and add resize image
+        label1 = Label(image=img)
+        label1.image = img
+        label1.place(x=192, y=80, width=364, height=400)
+
+        ####################################### VARIABLE ###################################################
+        self.ph_txt = StringVar()
+        self.otp_txt = IntVar()
+
+        ####################################### Otp ###################################################
+        self.otp = random.randint(1000, 9999)
+        self.acc_sid = "ACe6dc927719e4c77531037c6e3a5adb50"
+        self.auth_tok = "3a66c5853d5388f1adfc4cf5bd1eed73"
+
+        ##################### Frame #####################
+
+        f1_ = Frame(self.root, bg='#aec6cf')
+        f1_.place(x=10, y=80, width=420, height=400)
+        title = Label(f1_, text="OTP !", font=('times new roman', 30, "bold"), bg='#aec6cf', fg='black').place(x=180,
+                                                                                                               y=0)
+        Ph_ = Label(f1_, text="PH.NO.", font=('times new roman', 20, "bold"), bg='#aec6cf', fg='Black').place(x=20,
+                                                                                                              y=80)
+
+        ph_txt = ttk.Combobox(f1_, textvariable=self.ph_txt, font=('times new roman', 20), justify=CENTER)
+        ph_txt['values'] = ('Select', '+91', '+61', '+44', '+1', '+55', '+81', '+977')
+        ph_txt.place(x=150, y=80, width=220)
+        ph_txt.current(0)
+
+        otp_ = Label(f1_, text="OTP", font=('times new roman', 20, "bold"), bg='#aec6cf', fg='Black').place(x=20, y=155)
+        otp_txt = Entry(f1_, font=('times new roman', 20, "bold"), bg='white', fg='#191970',
+                        textvariable=self.otp_txt).place(x=150, y=155, width=220)
+        self.otp_txt.set("")
+
+        confirm = Button(f1_, text="Confirm", font=('times new roman', 15, "bold"), bg='green', fg='#dcdcdc',
+                         command=self.Confirm).place(x=250, y=250, width=100)
+
+        send = Button(f1_, text="Send", font=('times new roman', 15, "bold"), bg='green', fg='#dcdcdc',
+                      command=self.Send_).place(x=70, y=250, width=100)
+
+        Again = Button(f1_, text='Send Again', font=('', 10, "bold"), activebackground='#aec6cf', bg='#aec6cf',
+                       fg='red', command=self.Again, bd=0).place(x=300, y=120, width=100)
+
+        self.n = self.otp
+
+    def Confirm(self):
+        if self.ph_txt.get() == "Select" or self.n == "":
+            messagebox.showerror("Error", "All Feilds Are Required..")
+            # print("OTP IS :", self.n)
+            # print(type(self.n))
+            # print("Your output is:", self.otp_txt.get())
+            # print(type(self.otp_txt.get()))
+        elif self.ph_txt.get() == "Select" or self.ph_txt.get() == "+91" or self.ph_txt.get() == '+61' or self.ph_txt.get() == '+44' or self.ph_txt.get() == '+1' or self.ph_txt.get() == '+55' or self.ph_txt.get() == '+81' or self.ph_txt.get() == '+977'or  self.n != self.otp_txt.get():
+                messagebox.showerror("Error", "Enter A Valid Number")
+        else:
+            messagebox.showinfo("Success", "Successfully Login")
+            self.clear2()
+
+    def Again(self):
+        if self.ph_txt.get() == "Select" or self.ph_txt.get() == "+91" or self.ph_txt.get() == '+61' or self.ph_txt.get() == '+44' or self.ph_txt.get() == '+1' or self.ph_txt.get() == '+55' or self.ph_txt.get() == '+81' or self.ph_txt.get() == '+977':
+            messagebox.showerror("Error", "Enter A Valid Number")
+        else:
+            client = Client(self.acc_sid, self.auth_tok)
+            msg = client.messages.create(
+                body=f"your OTP is {self.otp}",
+                from_="+18045526142",
+                to=self.ph_txt.get()
+        )
+
+    def Send_(self):
+        if self.ph_txt.get() == "Select" or self.ph_txt.get() == "+91" or self.ph_txt.get() == '+61' or self.ph_txt.get() == '+44' or self.ph_txt.get() == '+1' or self.ph_txt.get() == '+55' or self.ph_txt.get() == '+81' or self.ph_txt.get() == '+977':
+            messagebox.showerror("Error", "Enter A Valid Number")
+        else:
+            client = Client(self.acc_sid, self.auth_tok)
+            msg = client.messages.create(
+                body=f"your OTP is {self.otp}",
+                from_="+18045526142",
+                to=self.ph_txt.get()
+            )
+
+    def clear2(self):
+        self.ph_txt.set("Select")
+        self.otp_txt.set("")
+
+
+root = Tk()
+ob = OTP(root)
+root.mainloop()
